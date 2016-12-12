@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Entity
 @XmlRootElement
-@Table(name = "orderDetail")
+@Table(name = "order_detail")
 public class OrderDetail implements Serializable{
 
     @Id
@@ -27,11 +27,11 @@ public class OrderDetail implements Serializable{
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Product productId;
 
-    @Column(name = "quantiry")
-    private String quantity;
+    @Column(name = "quantity")
+    private long quantity;
 
     @Column(name = "unitPrice")
-    private String unitPrice;
+    private Double unitPrice;
 
     public long getId() {
         return id;
@@ -57,20 +57,20 @@ public class OrderDetail implements Serializable{
         this.productId = productId;
     }
 
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(String unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     @Override
@@ -81,9 +81,9 @@ public class OrderDetail implements Serializable{
         OrderDetail that = (OrderDetail) o;
 
         if (id != that.id) return false;
+        if (quantity != that.quantity) return false;
         if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
         if (productId != null ? !productId.equals(that.productId) : that.productId != null) return false;
-        if (quantity != null ? !quantity.equals(that.quantity) : that.quantity != null) return false;
         return unitPrice != null ? unitPrice.equals(that.unitPrice) : that.unitPrice == null;
 
     }
@@ -93,7 +93,7 @@ public class OrderDetail implements Serializable{
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (orderId != null ? orderId.hashCode() : 0);
         result = 31 * result + (productId != null ? productId.hashCode() : 0);
-        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        result = 31 * result + (int) (quantity ^ (quantity >>> 32));
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
         return result;
     }

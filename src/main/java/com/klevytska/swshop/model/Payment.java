@@ -24,7 +24,7 @@ public class Payment  implements Serializable {
     private Order orderId;
 
     @Column(name = "paymentAmount")
-    private String paymentAmount;
+    private Double paymentAmount;
 
     @Column(name = "paymentDate")
     private Date paymentDate;
@@ -59,11 +59,11 @@ public class Payment  implements Serializable {
         this.orderId = orderId;
     }
 
-    public String getPaymentAmount() {
+    public Double getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(String paymentAmount) {
+    public void setPaymentAmount(Double paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 

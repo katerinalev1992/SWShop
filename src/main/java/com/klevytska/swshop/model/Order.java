@@ -27,7 +27,7 @@ public class Order implements Serializable {
     private Date orderDate;
 
     @Column(name = "orderNumber")
-    private String orderNumber;
+    private long orderNumber;
 
     @Column(name = "state")
     private String state;
@@ -38,7 +38,7 @@ public class Order implements Serializable {
     private PaymentMethod paymentMethodId;
 
     @NotNull
-    @JoinColumn(name = "shippingMothod")
+    @JoinColumn(name = "shippingMethodId")
     @ManyToOne(targetEntity = ShippingMethod.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ShippingMethod shippingMothod;
 
@@ -66,11 +66,11 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
     }
 
-    public String getOrderNumber() {
+    public long getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(String orderNumber) {
+    public void setOrderNumber(long orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -106,9 +106,9 @@ public class Order implements Serializable {
         Order order = (Order) o;
 
         if (id != order.id) return false;
+        if (orderNumber != order.orderNumber) return false;
         if (customerId != null ? !customerId.equals(order.customerId) : order.customerId != null) return false;
         if (orderDate != null ? !orderDate.equals(order.orderDate) : order.orderDate != null) return false;
-        if (orderNumber != null ? !orderNumber.equals(order.orderNumber) : order.orderNumber != null) return false;
         if (state != null ? !state.equals(order.state) : order.state != null) return false;
         if (paymentMethodId != null ? !paymentMethodId.equals(order.paymentMethodId) : order.paymentMethodId != null)
             return false;
@@ -121,7 +121,7 @@ public class Order implements Serializable {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (customerId != null ? customerId.hashCode() : 0);
         result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
-        result = 31 * result + (orderNumber != null ? orderNumber.hashCode() : 0);
+        result = 31 * result + (int) (orderNumber ^ (orderNumber >>> 32));
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (paymentMethodId != null ? paymentMethodId.hashCode() : 0);
         result = 31 * result + (shippingMothod != null ? shippingMothod.hashCode() : 0);

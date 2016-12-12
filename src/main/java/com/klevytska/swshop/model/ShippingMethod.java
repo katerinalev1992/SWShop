@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 @Entity
 @XmlRootElement
-@Table(name = "shippingMethod")
+@Table(name = "shipping_method")
 public class ShippingMethod implements Serializable{
 
     @Id
