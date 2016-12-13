@@ -19,26 +19,26 @@ public class Order implements Serializable {
     long id;
 
     @NotNull
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customer_id")
     @ManyToOne(targetEntity = Customer.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Customer customerId;
 
-    @Column(name = "orderDate")
+    @Column(name = "order_date")
     private Date orderDate;
 
-    @Column(name = "orderNumber")
+    @Column(name = "order_number")
     private long orderNumber;
 
     @Column(name = "state")
     private String state;
 
     @NotNull
-    @JoinColumn(name = "paymentMethodId")
+    @JoinColumn(name = "payment_method_id")
     @ManyToOne(targetEntity = PaymentMethod.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PaymentMethod paymentMethodId;
 
     @NotNull
-    @JoinColumn(name = "shippingMethodId")
+    @JoinColumn(name = "shipping_method_id")
     @ManyToOne(targetEntity = ShippingMethod.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ShippingMethod shippingMothod;
 

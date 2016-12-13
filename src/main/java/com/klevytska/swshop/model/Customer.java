@@ -16,13 +16,13 @@ public class Customer implements Serializable {
     @GeneratedValue
     private long id;
 
-    @Column(name = "companyName")
+    @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "address")
@@ -34,7 +34,7 @@ public class Customer implements Serializable {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "postalCode")
+    @Column(name = "postal_code")
     private String postalCode;
 
     @Column(name = "phone")

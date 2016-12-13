@@ -19,27 +19,27 @@ public class Payment  implements Serializable {
     private long id;
 
     @NotNull
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_id")
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Order orderId;
 
-    @Column(name = "paymentAmount")
+    @Column(name = "payment_amount")
     private Double paymentAmount;
 
-    @Column(name = "paymentDate")
+    @Column(name = "payment_date")
     private Date paymentDate;
 
-    @Column(name = "creditCardName")
+    @Column(name = "credit_card_name")
     private String creditCardName;
 
     @Column(name = "cardholderName")
     private String cardholderName;
 
-    @Column(name = "creditCardExpDate")
+    @Column(name = "credit_card_exp_date")
     private Date creditCardExpDate;
 
     @NotNull
-    @JoinColumn(name = "paymentMethodId")
+    @JoinColumn(name = "payment_method_id")
     @ManyToOne(targetEntity = PaymentMethod.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PaymentMethod paymentMethodId;
 

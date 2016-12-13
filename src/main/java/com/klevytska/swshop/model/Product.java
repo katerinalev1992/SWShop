@@ -24,29 +24,29 @@ public class Product implements Serializable{
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "shortDescription")
+    @Column(name = "short_description")
     private String shortDescription;
 
-    @Column(name = "fullDescription")
+    @Column(name = "full_description")
     private String fullDescription;
 
     @Column(name = "rating")
     private String rating;
 
-    @Column(name = "posterUrl")
+    @Column(name = "poster_url")
     private String posterUrl;
 
-    @Column(name = "isActive")
+    @Column(name = "is_active")
     private boolean isActive;
 
-    @Column(name = "productType")
+    @Column(name = "product_type")
     private String productType;
 
-    @Column(name = "addedDate")
+    @Column(name = "added_date")
     private Date addedDate;
 
     @NotNull
-    @JoinColumn(name = "addedBy")
+    @JoinColumn(name = "added_by")
     @ManyToOne(targetEntity = Employee.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Employee addedBy;
 

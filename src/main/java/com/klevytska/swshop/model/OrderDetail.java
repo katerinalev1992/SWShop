@@ -18,19 +18,19 @@ public class OrderDetail implements Serializable{
     private long id;
 
     @NotNull
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_id")
     @ManyToOne(targetEntity = Order.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Order orderId;
 
     @NotNull
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id")
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Product productId;
 
     @Column(name = "quantity")
     private long quantity;
 
-    @Column(name = "unitPrice")
+    @Column(name = "unit_price")
     private Double unitPrice;
 
     public long getId() {
