@@ -32,7 +32,7 @@ public class Payment  implements Serializable {
     @Column(name = "credit_card_name")
     private String creditCardName;
 
-    @Column(name = "cardholderName")
+    @Column(name = "cardholder_name")
     private String cardholderName;
 
     @Column(name = "credit_card_exp_date")
@@ -106,6 +106,7 @@ public class Payment  implements Serializable {
     public void setPaymentMethodId(PaymentMethod paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
     }
+
 
     @Override
     public boolean equals(Object o) {
