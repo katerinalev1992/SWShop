@@ -5,13 +5,13 @@
 CREATE TABLE public.customers
 (
   id bigint NOT NULL,
-  "companyName" character varying,
-  "firstName" character varying,
-  "lastName" character varying,
+  company_name character varying,
+  first_name character varying,
+  last_name character varying,
   address character varying,
   city character varying,
   country character varying,
-  "postalCode" character varying,
+  postal_code character varying,
   phone character varying,
   email character varying,
   CONSTRAINT pk_customers PRIMARY KEY (id)
@@ -28,8 +28,8 @@ ALTER TABLE public.customers
 CREATE TABLE public.employees
 (
   id bigint NOT NULL,
-  "firstName" character varying,
-  "lastName" character varying,
+  first_name character varying,
+  last_name character varying,
   email character varying,
   phone character varying,
   address character varying,
@@ -41,29 +41,29 @@ WITH (
 );
 ALTER TABLE public.employees
   OWNER TO postgres;
--- Table: public."orderDetail"
+-- Table: public.order_detail
 
--- DROP TABLE public."orderDetail";
+-- DROP TABLE public.order_detail;
 
-CREATE TABLE public."orderDetail"
+CREATE TABLE public.order_detail
 (
   id bigint NOT NULL,
-  "orderId" bigint,
-  "productId" bigint,
+  order_id bigint,
+  product_id bigint,
   quantity bigint,
-  "unitPrice" money,
+  unit_price double precision,
   CONSTRAINT "pk_orderDetail" PRIMARY KEY (id),
-  CONSTRAINT fk3 FOREIGN KEY ("orderId")
+  CONSTRAINT fk3 FOREIGN KEY (order_id)
       REFERENCES public.orders (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk4 FOREIGN KEY ("productId")
+  CONSTRAINT fk4 FOREIGN KEY (product_id)
       REFERENCES public.products (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public."orderDetail"
+ALTER TABLE public.order_detail
   OWNER TO postgres;
 
 -- Index: public.fki_fk3
@@ -71,18 +71,18 @@ ALTER TABLE public."orderDetail"
 -- DROP INDEX public.fki_fk3;
 
 CREATE INDEX fki_fk3
-  ON public."orderDetail"
+  ON public.order_detail
   USING btree
-  ("orderId");
+  (order_id);
 
 -- Index: public.fki_fk4
 
 -- DROP INDEX public.fki_fk4;
 
 CREATE INDEX fki_fk4
-  ON public."orderDetail"
+  ON public.order_detail
   USING btree
-  ("productId");
+  (product_id);
 
 -- Table: public.orders
 
@@ -91,21 +91,21 @@ CREATE INDEX fki_fk4
 CREATE TABLE public.orders
 (
   id bigint NOT NULL,
-  "customerId" bigint,
-  "orderDate" timestamp without time zone,
-  "orderNumber" bigint,
+  customer_id bigint,
+  order_date date,
+  order_number bigint,
   state character varying,
-  "paymentMethodId" bigint,
-  "shippingMethodId" bigint,
+  payment_method_id bigint,
+  shipping_method_id bigint,
   CONSTRAINT pk_orders PRIMARY KEY (id),
-  CONSTRAINT fk1 FOREIGN KEY ("customerId")
+  CONSTRAINT fk1 FOREIGN KEY (customer_id)
       REFERENCES public.customers (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk2 FOREIGN KEY ("shippingMethodId")
-      REFERENCES public."shippingMethod" (id) MATCH SIMPLE
+  CONSTRAINT fk2 FOREIGN KEY (shipping_method_id)
+      REFERENCES public.shipping_method (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk7 FOREIGN KEY ("paymentMethodId")
-      REFERENCES public."paymentMethod" (id) MATCH SIMPLE
+  CONSTRAINT fk7 FOREIGN KEY (payment_method_id)
+      REFERENCES public.payment_method (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -121,7 +121,7 @@ ALTER TABLE public.orders
 CREATE INDEX fki_fk1
   ON public.orders
   USING btree
-  ("customerId");
+  (customer_id);
 
 -- Index: public.fki_fk2
 
@@ -130,7 +130,7 @@ CREATE INDEX fki_fk1
 CREATE INDEX fki_fk2
   ON public.orders
   USING btree
-  ("shippingMethodId");
+  (shipping_method_id);
 
 -- Index: public.fki_fk7
 
@@ -139,13 +139,12 @@ CREATE INDEX fki_fk2
 CREATE INDEX fki_fk7
   ON public.orders
   USING btree
-  ("paymentMethodId");
+  (payment_method_id);
+-- Table: public.payment_method
 
--- Table: public."paymentMethod"
+-- DROP TABLE public.payment_method;
 
--- DROP TABLE public."paymentMethod";
-
-CREATE TABLE public."paymentMethod"
+CREATE TABLE public.payment_method
 (
   id bigint NOT NULL,
   method character varying,
@@ -154,7 +153,7 @@ CREATE TABLE public."paymentMethod"
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public."paymentMethod"
+ALTER TABLE public.payment_method
   OWNER TO postgres;
 -- Table: public.payments
 
@@ -163,19 +162,19 @@ ALTER TABLE public."paymentMethod"
 CREATE TABLE public.payments
 (
   id bigint NOT NULL,
-  "orderId" bigint,
-  "paymentAmount" money,
-  "paymentDate" timestamp without time zone,
-  "creditCardName" character varying,
-  "cardholderName" character varying,
-  "creditCardExpDate" timestamp without time zone,
-  "paymentMethodId" bigint,
+  order_id bigint,
+  payment_date date,
+  credit_card_name character varying,
+  cardholder_name character varying,
+  credit_card_exp_date date,
+  payment_method_id bigint,
+  payment_amount double precision,
   CONSTRAINT pk_payment PRIMARY KEY (id),
-  CONSTRAINT fk5 FOREIGN KEY ("orderId")
+  CONSTRAINT fk5 FOREIGN KEY (order_id)
       REFERENCES public.orders (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk6 FOREIGN KEY ("paymentMethodId")
-      REFERENCES public."paymentMethod" (id) MATCH SIMPLE
+  CONSTRAINT fk6 FOREIGN KEY (payment_method_id)
+      REFERENCES public.payment_method (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -191,7 +190,7 @@ ALTER TABLE public.payments
 CREATE INDEX fki_fk5
   ON public.payments
   USING btree
-  ("orderId");
+  (order_id);
 
 -- Index: public.fki_fk6
 
@@ -200,8 +199,7 @@ CREATE INDEX fki_fk5
 CREATE INDEX fki_fk6
   ON public.payments
   USING btree
-  ("paymentMethodId");
-
+  (payment_method_id);
 -- Table: public.products
 
 -- DROP TABLE public.products;
@@ -211,16 +209,16 @@ CREATE TABLE public.products
   id bigint NOT NULL,
   title character varying,
   price money,
-  "shortDescription" character varying(1),
-  "fullDescription" character varying,
+  short_description character varying(1),
+  full_description character varying,
   rating character varying,
-  "posterUrl" character varying,
-  "isActive" boolean,
-  "addedDate" timestamp without time zone,
-  "addedBy" bigint,
-  "productType" character varying,
+  poster_url character varying,
+  is_active boolean,
+  added_date date,
+  added_by bigint,
+  product_type character varying,
   CONSTRAINT pk_products PRIMARY KEY (id),
-  CONSTRAINT fk8 FOREIGN KEY ("addedBy")
+  CONSTRAINT fk8 FOREIGN KEY (added_by)
       REFERENCES public.employees (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -237,13 +235,13 @@ ALTER TABLE public.products
 CREATE INDEX fki_fk8
   ON public.products
   USING btree
-  ("addedBy");
+  (added_by);
 
--- Table: public."shippingMethod"
+-- Table: public.shipping_method
 
--- DROP TABLE public."shippingMethod";
+-- DROP TABLE public.shipping_method;
 
-CREATE TABLE public."shippingMethod"
+CREATE TABLE public.shipping_method
 (
   id bigint NOT NULL,
   method character varying,
@@ -252,5 +250,7 @@ CREATE TABLE public."shippingMethod"
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public."shippingMethod"
+ALTER TABLE public.shipping_method
   OWNER TO postgres;
+
+
